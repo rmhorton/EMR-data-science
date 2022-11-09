@@ -29,8 +29,8 @@ dbutils.fs.mkdirs(local_path)
 with zipfile.ZipFile("sample_data.zip", "r") as zip_ref:
   zip_ref.extractall(local_path)
 
-# If you change your mind:
-# dbutils.fs.rm(data_path, recurse=True)
+## If you change your mind:
+#    dbutils.fs.rm(data_path, recurse=True)
 
 # COMMAND ----------
 
@@ -55,7 +55,7 @@ for file_info in dbutils.fs.ls('/FileStore/emr_sample/csv'):
 
 
 ## If you change your mind:
-# spark.sql(f"drop database {DB_NAME} cascade")
+#    spark.sql(f"drop database {DB_NAME} cascade")
 
 # COMMAND ----------
 
