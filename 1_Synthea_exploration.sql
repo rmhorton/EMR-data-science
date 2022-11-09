@@ -60,7 +60,7 @@
 
 -- MAGIC %sql
 -- MAGIC 
--- MAGIC -- this should fail
+-- MAGIC -- this should fail if you haven't selected the right database
 -- MAGIC 
 -- MAGIC select * from encounters
 
@@ -81,10 +81,6 @@ select * from encounters;
 
 -- COMMAND ----------
 
-select count(distinct id) from patients;
-
--- COMMAND ----------
-
 desc encounters
 
 -- COMMAND ----------
@@ -95,7 +91,7 @@ select * from patients
 
 -- MAGIC %md
 -- MAGIC 
--- MAGIC What is the total number of patients?
+-- MAGIC _Extra Credit_: What is the total number of patients?
 
 -- COMMAND ----------
 
@@ -105,25 +101,9 @@ select speciality, count(*) tally from providers group by speciality
 
 -- MAGIC %python
 -- MAGIC 
--- MAGIC synthea_tables = """allergies
--- MAGIC careplans
--- MAGIC claims
--- MAGIC claims_transactions
--- MAGIC conditions
--- MAGIC devices
--- MAGIC encounters
--- MAGIC imaging_studies
--- MAGIC immunizations
--- MAGIC medications
--- MAGIC observations
--- MAGIC organizations
--- MAGIC patients
--- MAGIC payer_transitions
--- MAGIC payers
--- MAGIC procedures
--- MAGIC providers
--- MAGIC supplies""".split('\n')
--- MAGIC                   
+-- MAGIC tables = spark.sql("show tables").toPandas()
+-- MAGIC synthea_tables = tables[tables.database == 'emr_sample']['tableName'].values
+-- MAGIC 
 -- MAGIC for syntab in synthea_tables:
 -- MAGIC   print(f'{syntab}')
 -- MAGIC   print(spark.sql(f'describe table {syntab}').toPandas())
@@ -131,14 +111,13 @@ select speciality, count(*) tally from providers group by speciality
 -- COMMAND ----------
 
 -- DBTITLE 1,Encounters
-select patient, last(START) from encounters 
-  group by patient 
+select * from encounters
 
 -- COMMAND ----------
 
 -- MAGIC %md
 -- MAGIC 
--- MAGIC The syntax highlighting seems to think 'code' is a SQL keyword. The highlighted term 'desc' specifies descending order
+-- MAGIC _Extra Credit:_ What was the date of the most recent encounter for each patient?
 
 -- COMMAND ----------
 
@@ -151,22 +130,6 @@ select count(*) tally, code, collect_set(description) description_list from cond
 
 -- COMMAND ----------
 
--- MAGIC %md
--- MAGIC 
--- MAGIC #### Extra Credit
-
--- COMMAND ----------
-
--- MAGIC %md
--- MAGIC 
--- MAGIC ##### How would you discover observations related to 'pain'?
-
--- COMMAND ----------
-
-
-
--- COMMAND ----------
-
 -- MAGIC %python
 -- MAGIC 
 -- MAGIC # 72514-3 "Pain severity - 0-10 verbal numeric rating [Score] - Reported"
@@ -174,6 +137,18 @@ select count(*) tally, code, collect_set(description) description_list from cond
 -- MAGIC sql = "select int(value) pain_level, count(*) tally from observations where code = '72514-3' group by pain_level order by pain_level"
 -- MAGIC 
 -- MAGIC display(spark.sql(sql).toPandas().plot.bar(x='pain_level', y='tally'))
+
+-- COMMAND ----------
+
+-- MAGIC %md
+-- MAGIC 
+-- MAGIC _Extra Credit:_ How would you discover observations related to 'pain'?
+
+-- COMMAND ----------
+
+-- MAGIC %md
+-- MAGIC 
+-- MAGIC _Extra Credit:_ What are the different kinds of encounters, and how many of each are in the database?
 
 -- COMMAND ----------
 
@@ -205,27 +180,6 @@ select p.gender, cast(o.value as float) T_score from observations o join patient
 
 -- DBTITLE 1,Medications
 select * from medications limit 10
-
--- COMMAND ----------
-
--- MAGIC %python
--- MAGIC 
--- MAGIC sql = "select description, count(*) tally from medications group by description order by tally desc"
--- MAGIC 
--- MAGIC med_tally = spark.sql(sql).toPandas()
--- MAGIC 
--- MAGIC med_tally
-
--- COMMAND ----------
-
--- MAGIC %python
--- MAGIC # len(short_name) # 224
--- MAGIC 
--- MAGIC # [n for n in short_name if len(n)> 35]
--- MAGIC 
--- MAGIC # import pandas as pd
--- MAGIC 
--- MAGIC # pd.DataFrame({'short_name': short_name, 'length': [len(n) for n in short_name]})
 
 -- COMMAND ----------
 
@@ -289,12 +243,6 @@ select value T_score, count(*) tally from observations where description == 'DXA
 -- MAGIC %r
 -- MAGIC sql <- "select p.gender, cast(o.value as float) T_score from observations o join patients p on o.patient = p.id where o.description == 'DXA [T-score] Bone density'"
 -- MAGIC sdf_sql(sc, sql) %>% ggplot(aes(x=T_score, fill=gender)) + geom_density(alpha=0.5)
-
--- COMMAND ----------
-
--- MAGIC %md
--- MAGIC 
--- MAGIC How would you make sure you only get the latest measurement for each patient?
 
 -- COMMAND ----------
 
