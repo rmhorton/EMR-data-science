@@ -140,6 +140,14 @@
 
 # COMMAND ----------
 
+# MAGIC %sql
+# MAGIC 
+# MAGIC use emr_sample;
+# MAGIC 
+# MAGIC show tables;
+
+# COMMAND ----------
+
 # DBTITLE 1,Check for denormalized descriptions in medications
 # MAGIC %sql
 # MAGIC 
@@ -160,8 +168,6 @@
 
 # DBTITLE 1,Collect 'baskets' and 'items'
 # MAGIC %sql
-# MAGIC 
-# MAGIC use missouri;
 # MAGIC 
 # MAGIC create or replace temporary view basket_item as
 # MAGIC with
@@ -341,12 +347,6 @@
 
 # MAGIC %python
 # MAGIC 
-# MAGIC display(ip_stats.hist(column='confidence', bins=15)[0][0])  ### ???
-
-# COMMAND ----------
-
-# MAGIC %python
-# MAGIC 
 # MAGIC # select all the item pairs with confidence greater than 0.5
 # MAGIC ip_stats = spark.sql("select * from item_pair_stats where confidence > 0.5").toPandas()
 # MAGIC 
@@ -379,6 +379,18 @@
 
 # MAGIC %python
 # MAGIC 
+# MAGIC display(ip_stats.hist(column='confidence', bins=15)[0][0])  ### ???
+
+# COMMAND ----------
+
+
+
+# COMMAND ----------
+
+# MAGIC %python
+# MAGIC 
+# MAGIC # make sure the plots directory exists, then save the cooccurrence plot there
+# MAGIC dbutils.fs.mkdirs('/FileStore/plots')
 # MAGIC export_to_vis_js(nodes, edges, 'Synthea Co-occurrence Demo', '/dbfs/FileStore/plots/synthea_cooccurrence_demo.html')
 
 # COMMAND ----------
@@ -390,7 +402,7 @@
 # MAGIC `https://adb-1953517438448055.15.azuredatabricks.net/?o=`__1953517438448055__`#notebook/3520119352938610/command/2583312897290483`
 # MAGIC 
 # MAGIC 
-# MAGIC View results [here](https://adb-1953517438448055.15.azuredatabricks.net/files/plots/synthea_cooccurrence_demo.html?o=1953517438448055)
+# MAGIC View results [here](https://adb-7320327251662587.7.azuredatabricks.net/files/plots/synthea_cooccurrence_demo.html?o=7320327251662587)
 
 # COMMAND ----------
 

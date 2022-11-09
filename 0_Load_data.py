@@ -72,6 +72,11 @@ secrets = {'storage_account_name':'PUT_YOUR_BLOB_STORAGE_ACCOUNT_NAME_HERE',
 
 # COMMAND ----------
 
+if secrets['storage_account_name'] == 'PUT_YOUR_BLOB_STORAGE_ACCOUNT_NAME_HERE':
+    displayHTML('''<blink><font color="red"><h1>You need to enter your connection info in the 'secrets' dict!</h1></font></blink>''')
+
+# COMMAND ----------
+
 # DBTITLE 1,Mount storage container to DBFS
 CSV_FOLDER = "/missouri/2021_07_11T17_42_12Z"
 

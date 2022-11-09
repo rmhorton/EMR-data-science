@@ -5,8 +5,13 @@
 
 # COMMAND ----------
 
+## If you have not permanently installed this package on your cluster, you can juat install it temporarily
+# pip install interpret
+
+# COMMAND ----------
+
 # MAGIC %sql
-# MAGIC use missouri;
+# MAGIC use emr_sample;
 
 # COMMAND ----------
 
@@ -34,12 +39,6 @@
 # MAGIC   from patients p
 # MAGIC   inner join most_recent_encounters e on p.id = e.patient
 # MAGIC     left join conditions c on c.patient = e.patient and date(c.start) <= date(e.stop)  where c.description = 'Malignant neoplasm of breast (disorder)'
-
-# COMMAND ----------
-
-# MAGIC %r
-# MAGIC 
-# MAGIC options(repr.plot.width=400, repr.plot.height=300)
 
 # COMMAND ----------
 
@@ -178,3 +177,7 @@
 # MAGIC 
 # MAGIC roc_explanation = roc.explain_perf(X_test, y_test)
 # MAGIC show(roc_explanation)
+
+# COMMAND ----------
+
+
