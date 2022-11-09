@@ -5,6 +5,19 @@
 
 # COMMAND ----------
 
+displayHTML(f'''
+<iframe
+  src="https://view.officeapps.live.com/op/view.aspx?src=https%3A%2F%2Fraw.githubusercontent.com%2Frmhorton%2FEMR-data-science%2Fmain%2FML_with_simulated_EMR.pptx&slide=8&wdSlideId=260"
+  frameborder="0"
+  width="80%"
+  height="640"
+></iframe>
+''')
+
+# wdSlideIndex=8
+
+# COMMAND ----------
+
 import os
 import zipfile
 
