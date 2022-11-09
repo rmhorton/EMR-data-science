@@ -21,12 +21,22 @@ displayHTML(f'''
 import os
 import zipfile
 
-datasets_dbfs_path = '/dbfs/FileStore/emr'
+data_path = '/FileStore/emr_sample'
+local_path = '/dbfs' + data_path
 
-dbutils.fs.mkdirs(datasets_dbfs_path)
+dbutils.fs.mkdirs(local_path)
   
 with zipfile.ZipFile("sample_data.zip", "r") as zip_ref:
-  zip_ref.extractall(datasets_dbfs_path)
+  zip_ref.extractall(local_path)
+
+# If you change your mind:
+# dbutils.fs.rm(data_path, recurse=True)
+
+# COMMAND ----------
+
+# MAGIC %fs
+# MAGIC 
+# MAGIC ls /FileStore
 
 # COMMAND ----------
 
@@ -38,11 +48,14 @@ DB_NAME = "emr_sample"
 spark.sql(f"create database if not exists {DB_NAME}")
 spark.sql(f"use {DB_NAME}")
 
-for file_info in dbutils.fs.ls('/FileStore/emr/sample_data'):
+for file_info in dbutils.fs.ls('/FileStore/emr_sample/csv'):
   table_name = re.sub('(.*)\\.csv$', '\\1', file_info.name).lower()
   print(f"creating table '{DB_NAME}.{table_name}' from file {file_info.path}")
   spark.read.options(header=True).csv(file_info.path).write.mode('overwrite').saveAsTable(table_name)
 
+
+## If you change your mind:
+# spark.sql(f"drop database {DB_NAME} cascade")
 
 # COMMAND ----------
 
