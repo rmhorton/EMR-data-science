@@ -49,7 +49,7 @@
 
 -- MAGIC %fs
 -- MAGIC 
--- MAGIC ls /mnt
+-- MAGIC ls /FileStore
 
 -- COMMAND ----------
 
@@ -60,21 +60,28 @@
 
 -- MAGIC %sql
 -- MAGIC 
--- MAGIC -- temp: where are the discharge categories, and what are they called?
+-- MAGIC -- this should fail
 -- MAGIC 
 -- MAGIC select * from encounters
 
 -- COMMAND ----------
 
-use missouri;
+-- MAGIC %sql
+-- MAGIC show databases
+
+-- COMMAND ----------
+
+use emr_sample;
+
+show tables;
+
+-- COMMAND ----------
 
 select * from encounters;
 
 -- COMMAND ----------
 
--- MAGIC %sql
--- MAGIC 
--- MAGIC select count(distinct id) from patients;
+select count(distinct id) from patients;
 
 -- COMMAND ----------
 
