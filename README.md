@@ -21,3 +21,15 @@ Co-occurrence plots, using various metrics:
 - [confidence](https://rmhorton.github.io/EMR-data-science/synthea_cooccurrence_demo.html) 
 - [lift](https://rmhorton.github.io/EMR-data-science/synthea_cooccurrence_demo.html?metric=lift)
 - [log2lift](https://rmhorton.github.io/EMR-data-science/synthea_cooccurrence_demo.html?metric=log2lift)
+
+
+## Sample Data
+
+The 'sample_data.zip' archive contains CSV files copied from the "[Sythetic Mass](https://synthetichealth.github.io/synthea-sample-data/downloads/synthea_sample_data_csv_apr2020.zip)" 1k patient sample.
+
+This dataset is described in this reference:
+```
+Walonoski J, Klaus S, Granger E, Hall D, Gregorowicz A, Neyarapally G, Watson A, Eastman J. 
+Synthea™ Novel coronavirus (COVID-19) model and synthetic data set. 
+Intelligence-Based Medicine. 2020 Nov;1:100007. https://doi.org/10.1016/j.ibmed.2020.100007
+```

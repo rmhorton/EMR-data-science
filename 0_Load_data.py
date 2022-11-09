@@ -1,4 +1,44 @@
 # Databricks notebook source
+# MAGIC %md
+# MAGIC 
+# MAGIC # Load sample data from github repo
+
+# COMMAND ----------
+
+import os
+import zipfile
+
+datasets_dbfs_path = '/dbfs/FileStore/emr'
+
+dbutils.fs.mkdirs(datasets_dbfs_path)
+  
+with zipfile.ZipFile("sample_data.zip", "r") as zip_ref:
+  zip_ref.extractall(datasets_dbfs_path)
+
+# COMMAND ----------
+
+import os
+import re
+
+DB_NAME = "emr_sample"
+
+spark.sql(f"create database if not exists {DB_NAME}")
+spark.sql(f"use {DB_NAME}")
+
+for file_info in dbutils.fs.ls('/FileStore/emr/sample_data'):
+  table_name = re.sub('(.*)\\.csv$', '\\1', file_info.name).lower()
+  print(f"creating table '{DB_NAME}.{table_name}' from file {file_info.path}")
+  spark.read.options(header=True).csv(file_info.path).write.mode('overwrite').saveAsTable(table_name)
+
+
+# COMMAND ----------
+
+# MAGIC %md
+# MAGIC 
+# MAGIC # Load big dataset from blob storage
+
+# COMMAND ----------
+
 # DBTITLE 1,Enter your data connection information here
 secrets = {'storage_account_name':'PUT_YOUR_BLOB_STORAGE_ACCOUNT_NAME_HERE',
            'container_name':'PUT_YOUR_BLOB_CONTAINER_NAME_HERE',
