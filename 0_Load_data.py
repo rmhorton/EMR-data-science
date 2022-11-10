@@ -40,6 +40,10 @@ with zipfile.ZipFile("sample_data.zip", "r") as zip_ref:
 
 # COMMAND ----------
 
+!ls -R /dbfs/FileStore
+
+# COMMAND ----------
+
 import os
 import re
 
