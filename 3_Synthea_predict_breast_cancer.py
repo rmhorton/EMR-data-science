@@ -8,7 +8,6 @@
 # If you have not permanently installed this package on your cluster, you can just install it temporarily by removing the # sign from the next line:
 #! pip install interpret
 
-
 # COMMAND ----------
 
 # MAGIC %sql
