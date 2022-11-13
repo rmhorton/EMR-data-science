@@ -25,7 +25,7 @@ Co-occurrence plots, using various metrics:
 
 ## Sample Data
 
-The 'sample_data.zip' archive contains CSV files copied from the "[Sythetic Mass](https://synthetichealth.github.io/synthea-sample-data/downloads/synthea_sample_data_csv_apr2020.zip)" 1k patient sample.
+The 'sample_data.zip' archive contains CSV files copied from the "[Synthetic Mass](https://synthetichealth.github.io/synthea-sample-data/downloads/synthea_sample_data_csv_apr2020.zip)" 1k patient sample.
 
 This dataset is described in this reference:
 ```
@@ -33,3 +33,7 @@ Walonoski J, Klaus S, Granger E, Hall D, Gregorowicz A, Neyarapally G, Watson A,
 Synthea™ Novel coronavirus (COVID-19) model and synthetic data set. 
 Intelligence-Based Medicine. 2020 Nov;1:100007. https://doi.org/10.1016/j.ibmed.2020.100007
 ```
+
+## Workshop Instructions
+
+The workshop instructions are in the [ML_with_simulated_EMR.pptx](ML_with_simulated_EMR.pptx) file; see Part 0: Setting up Databricks.
