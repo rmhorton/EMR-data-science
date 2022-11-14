@@ -18,38 +18,6 @@
 # MAGIC %md
 # MAGIC 
 # MAGIC # Breast Cancer
-
-# COMMAND ----------
-
-# MAGIC %sql
-# MAGIC with
-# MAGIC latest_patient_start as (
-# MAGIC   select patient, max(date(start)) latest_start from encounters 
-# MAGIC     group by patient
-# MAGIC ),
-# MAGIC most_recent_encounters as (
-# MAGIC   select encounters.* 
-# MAGIC     from encounters inner join latest_patient_start 
-# MAGIC       on encounters.patient = latest_patient_start.patient 
-# MAGIC       and date(encounters.start) = latest_patient_start.latest_start
-# MAGIC     where date(encounters.start) > date('2021-01-01')
-# MAGIC )
-# MAGIC select e.id encounter, p.first, p.last, floor(datediff(date(e.start), date(p.birthdate))/365.24) age, p.race, p.ethnicity, p.gender
-# MAGIC     , c.description
-# MAGIC   from patients p
-# MAGIC   inner join most_recent_encounters e on p.id = e.patient
-# MAGIC     left join conditions c on c.patient = e.patient and date(c.start) <= date(e.stop)  where c.description = 'Malignant neoplasm of breast (disorder)'
-
-# COMMAND ----------
-
-# MAGIC %r
-# MAGIC options(repr.plot.width=600, repr.plot.height=1200)
-
-# COMMAND ----------
-
-# MAGIC %md
-# MAGIC 
-# MAGIC # Breast Cancer
 # MAGIC 
 # MAGIC Predict whether breast cancer will be diagnosed in a given encounter. Exclude patients who have a current diagnosis of breast cancer.
 
