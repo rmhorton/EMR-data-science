@@ -62,7 +62,7 @@
 -- MAGIC 
 -- MAGIC -- this should fail if you haven't selected the right database
 -- MAGIC 
--- MAGIC select * from encounters
+-- MAGIC -- select * from encounters
 
 -- COMMAND ----------
 
@@ -221,6 +221,11 @@ select * from medications limit 10
 -- COMMAND ----------
 
 -- MAGIC %r
+-- MAGIC options(repr.plot.width=600, repr.plot.height=600)
+
+-- COMMAND ----------
+
+-- MAGIC %r
 -- MAGIC 
 -- MAGIC library(dplyr)
 -- MAGIC library(sparklyr)
@@ -258,12 +263,12 @@ select code, collect_set(description), count(*) tally from encounters group by c
 -- COMMAND ----------
 
 -- select count(*) from conditions where code = 254837009 -- 1369
+-- code 254837009 'Malignant neoplasm of breast (disorder)'
 
 with
 encounter_condition as (
   select e.id encounter, e.code encounter_code, collect_set(c.code) as condition_code_list
     from encounters e join conditions c on c.encounter = e.id
-    -- where e.code in ('162673000', '185349003')
     group by e.id, e.code
 ),
 encounter_bcadx as (
@@ -272,22 +277,6 @@ encounter_bcadx as (
 )
 select * from encounter_bcadx where breast_cancer_dx = 'Y'
 -- select breast_cancer_dx, count(*) tally from encounter_bcadx group by breast_cancer_dx
-
--- COMMAND ----------
-
--- select * from conditions where code = 254837009
--- code 254837009 'Malignant neoplasm of breast (disorder)'
-
--- select * from conditions where code = 254837009 -- and stop is not null
-
-with
-encounter_condition as (
-  select e.id, collect_set(c.code) as condition_code_list
-    from encounters e join conditions c on c.encounter = e.id
-    where e.code in ('162673000', '185349003')
-    group by e.id
-)
-select * from encounter_condition where array_contains(condition_code_list, '254837009')
 
 -- COMMAND ----------
 
