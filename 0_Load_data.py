@@ -1,6 +1,14 @@
 # Databricks notebook source
 # MAGIC %md
 # MAGIC 
+# MAGIC The github repo contains a small dataset, which we will load into a database called "emr_sample"; this will let you run through the exercises, but it is not really large enough to train a good ML model. A single-node cluster is sufficient for working with this dataset.
+# MAGIC 
+# MAGIC We will provide a SAS token to people who want to stay after the workshop and re-run the model on the larger "missouri" dataset. If you want to work with the larger datast, you should set up a multi-node cluster, the run the "Load big dataset from storage container" section below. The only modification you should have to make in the other notebooks is to change 'use emr_sample' to 'use missouri'.
+
+# COMMAND ----------
+
+# MAGIC %md
+# MAGIC 
 # MAGIC # Load sample data from github repo
 
 # COMMAND ----------
